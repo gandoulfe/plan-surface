@@ -155,6 +155,25 @@ function drawCurrentPolygon() {
   }
 
   S.current.forEach((p, i) => dot(p, i === 0 ? '#fff' : color, r));
+
+  // Live length label on the in-progress segment
+  if (S.mouse && !snap && S.current.length >= 1) {
+    const last = S.current[S.current.length - 1];
+    const cur  = { x: S.mouse.wx, y: S.mouse.wy };
+    const d    = dist(last, cur);
+    if (d > 2 / S.zoom) {
+      const lbl = S.scale ? fmtLength(d * S.scale) : d.toFixed(0) + ' px';
+      const mx  = (last.x + cur.x) / 2, my = (last.y + cur.y) / 2;
+      const fsz = clamp(11 / S.zoom, 8, 22);
+      ctx.font = `600 ${fsz}px system-ui, sans-serif`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const tw = ctx.measureText(lbl).width, th = fsz * 1.5;
+      ctx.fillStyle = 'rgba(0,0,0,0.7)';
+      rrect(mx - tw / 2 - 5 / S.zoom, my - th / 2, tw + 10 / S.zoom, th, 3 / S.zoom);
+      ctx.fill();
+      ctx.fillStyle = color; ctx.fillText(lbl, mx, my);
+    }
+  }
 }
 
 // ── Canvas primitives ─────────────────────────────────────────────────────────
