@@ -110,7 +110,7 @@ function cancelCalibration() {
 
 function applyScaleStatus() {
   if (!S.scale) return;
-  document.getElementById('scale-status').textContent = `1 m = ${(1 / S.scale).toFixed(1)} px  |  1 px = ${(S.scale * 100).toFixed(4)} cm`;
+  document.getElementById('scale-status').textContent = `1 m = ${(1 / S.scale).toFixed(1)} px`;
   document.getElementById('scale-status').className   = 'scale-status calibrated';
   document.getElementById('draw-btn').classList.add('btn-highlight');
 }
