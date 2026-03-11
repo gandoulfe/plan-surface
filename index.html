@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plan Surface</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
   <div class="app">
@@ -97,6 +97,18 @@
       <div class="dialog-buttons">
         <button class="btn btn-primary" id="calib-intro-start">Commencer</button>
         <button class="btn" id="calib-intro-skip">Ignorer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clear confirmation -->
+  <div id="clear-confirm-modal" class="dialog-overlay" style="display:none">
+    <div class="dialog">
+      <h3>Tout effacer ?</h3>
+      <p>Tous les polygones et mesures seront supprimés. Cette action est irréversible.</p>
+      <div class="dialog-buttons">
+        <button class="btn btn-danger-solid" id="clear-confirm-yes">Effacer</button>
+        <button class="btn" id="clear-confirm-no">Annuler</button>
       </div>
     </div>
   </div>

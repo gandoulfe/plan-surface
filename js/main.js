@@ -51,6 +51,8 @@ function bindUI() {
   document.getElementById('export-btn').addEventListener('click', exportData);
   document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-input').click());
   document.getElementById('print-btn').addEventListener('click', () => printView());
+  document.getElementById('clear-confirm-yes').addEventListener('click', clearAllConfirmed);
+  document.getElementById('clear-confirm-no').addEventListener('click', () => { document.getElementById('clear-confirm-modal').style.display = 'none'; });
   document.getElementById('legal-link').addEventListener('click', e => { e.preventDefault(); document.getElementById('legal-modal').style.display = 'flex'; });
   document.getElementById('legal-close').addEventListener('click', () => { document.getElementById('legal-modal').style.display = 'none'; });
   document.getElementById('calib-intro-start').addEventListener('click', () => { document.getElementById('calib-intro-modal').style.display = 'none'; startCalibration(); });
@@ -141,6 +143,11 @@ function startMeasuring() {
 
 function clearAll() {
   if (!S.polygons.length && !S.current.length && !S.measurements.length) return;
+  document.getElementById('clear-confirm-modal').style.display = 'flex';
+}
+
+function clearAllConfirmed() {
+  document.getElementById('clear-confirm-modal').style.display = 'none';
   S.polygons = []; S.measurements = []; S.current = [];
   setMode('idle'); setInstructions('');
   updateSidebar(); render();
