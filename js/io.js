@@ -72,6 +72,13 @@ export function printView(canvas) {
     </tr>`;
   }).join('');
 
+  const totalArea = S.polygons.reduce((sum, p) => p.area !== null ? sum + p.area : sum, 0);
+  const hasScale  = S.polygons.some(p => p.area !== null);
+  const totalRow  = hasScale && S.polygons.length > 1
+    ? `<tr style="font-weight:700;background:#f0f0ff">
+        <td></td><td>Total</td><td>${fmtArea(totalArea)}</td>
+      </tr>` : '';
+
   const win = window.open('', '_blank');
   win.document.write(`<!DOCTYPE html><html lang="fr"><head>
   <meta charset="UTF-8"><title>Rapport de surface</title>
@@ -90,15 +97,15 @@ export function printView(canvas) {
   </style>
 </head><body>
   <h1>Rapport de surface</h1>
-  <img src="${dataUrl}" alt="Plan annote">
+  <img src="${dataUrl}" alt="Plan annoté">
   <table>
     <thead><tr><th></th><th>Nom</th><th>Surface / Distance</th></tr></thead>
-    <tbody>${polyRows}${measRows}</tbody>
+    <tbody>${polyRows}${totalRow}${measRows}</tbody>
   </table>
   <div class="footer">
-    <strong>Mentions legales</strong> &mdash;
-    Cet outil est fourni a titre informatif uniquement. Les mesures peuvent etre imprecises et ne doivent pas etre utilisees a des fins legales ou techniques sans verification professionnelle. L'auteur decline toute responsabilite. Aucune donnee n'est collectee ou stockee.<br>
-    Developpe par <strong>David Nazar</strong> &mdash;
+    <strong>Mentions légales</strong> &mdash;
+    Cet outil est fourni à titre informatif uniquement. Les mesures peuvent être imprécises et ne doivent pas être utilisées à des fins légales ou techniques sans vérification professionnelle. L'auteur décline toute responsabilité. Aucune donnée n'est collectée ou stockée.<br>
+    Développé par <strong>David Nazar</strong> &mdash;
     <a href="mailto:nazar.david@gmail.com">nazar.david@gmail.com</a> &mdash;
     <a href="https://twitter.com/gandoulfe" target="_blank" rel="noopener">@gandoulfe</a>
   </div>
