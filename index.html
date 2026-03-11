@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Surface</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>Plan Surface</h1>
+      </div>
+
+      <div class="sidebar-body">
+
+        <div class="section">
+          <div class="section-label">Plan</div>
+          <div class="stack">
+            <label class="btn btn-primary" for="file-input">
+              Importer un plan
+              <input type="file" id="file-input" accept=".pdf,image/*" hidden>
+            </label>
+            <div id="file-name" class="file-name"></div>
+          </div>
+        </div>
+
+        <div class="section" id="scale-section" style="display:none">
+          <div class="section-label">Echelle</div>
+          <div class="stack">
+            <div id="scale-status" class="scale-status uncalibrated">Non calibree</div>
+            <button class="btn" id="calibrate-btn">Recalibrer l'echelle</button>
+          </div>
+        </div>
+
+        <div class="section" id="draw-section" style="display:none">
+          <div class="section-label">Outils</div>
+          <div class="stack">
+            <button class="btn btn-success" id="draw-btn">Nouveau polygone</button>
+            <button class="btn btn-measure" id="measure-btn">Mesurer une distance</button>
+            <div class="btn-row">
+              <button class="btn" id="export-btn">Exporter</button>
+              <button class="btn" id="import-btn">Importer</button>
+              <input type="file" id="import-input" accept=".json" hidden>
+            </div>
+            <button class="btn" id="print-btn">Imprimer / PDF</button>
+            <button class="btn btn-danger" id="clear-btn">Tout effacer</button>
+          </div>
+        </div>
+
+        <div class="section" id="polygons-section" style="display:none">
+          <div class="section-label">Polygones</div>
+          <ul id="polygon-list"></ul>
+          <div class="total" id="total-surface"></div>
+        </div>
+
+        <div class="section" id="measurements-section" style="display:none">
+          <div class="section-label">Mesures</div>
+          <ul id="measurement-list"></ul>
+        </div>
+
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="shortcuts">
+          <div class="shortcut-title">Raccourcis</div>
+          <div class="shortcut-row"><span>Zoom</span><span class="shortcut-key">Molette</span></div>
+          <div class="shortcut-row"><span>Deplacer</span><span class="shortcut-key">Clic + glisser</span></div>
+          <div class="shortcut-row"><span>Annuler</span><span class="shortcut-key">Echap</span></div>
+          <div class="shortcut-row"><span>Fermer polygone</span><span class="shortcut-key">Double-clic</span></div>
+        </div>
+        <div class="legal-footer">
+          <a href="#" id="legal-link">Mentions legales</a>
+          &nbsp;&middot;&nbsp;
+          <a href="mailto:nazar.david@gmail.com">nazar.david@gmail.com</a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="canvas-container" id="canvas-container">
+      <canvas id="main-canvas"></canvas>
+      <div id="instructions"></div>
+      <div id="zoom-indicator"></div>
+    </main>
+  </div>
+
+  <!-- Calibration intro modal -->
+  <div id="calib-intro-modal" class="dialog-overlay" style="display:none">
+    <div class="dialog">
+      <h3>Calibration de l'echelle</h3>
+      <p>Pour calculer les surfaces, l'application a besoin de connaitre l'echelle du plan.</p>
+      <ol class="calib-steps">
+        <li>Cliquez sur <strong>2 points</strong> dont vous connaissez la distance reelle (ex : un mur, une cote)</li>
+        <li>Entrez la <strong>distance reelle</strong> entre ces 2 points</li>
+        <li>L'echelle est calculee automatiquement</li>
+      </ol>
+      <div class="dialog-buttons">
+        <button class="btn btn-primary" id="calib-intro-start">Commencer</button>
+        <button class="btn" id="calib-intro-skip">Ignorer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scale dialog -->
+  <div id="scale-dialog" class="dialog-overlay" style="display:none">
+    <div class="dialog">
+      <h3>Distance reelle</h3>
+      <p>Entrez la longueur reelle de la ligne tracee :</p>
+      <div class="input-group">
+        <input type="number" id="real-length" min="0.001" step="any" placeholder="ex: 5">
+        <select id="length-unit">
+          <option value="1">m</option>
+          <option value="0.01">cm</option>
+          <option value="0.001">mm</option>
+        </select>
+      </div>
+      <div class="dialog-buttons">
+        <button class="btn btn-primary" id="confirm-scale">Confirmer</button>
+        <button class="btn" id="cancel-scale">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal modal -->
+  <div id="legal-modal" class="dialog-overlay" style="display:none">
+    <div class="dialog dialog-legal">
+      <h3>Mentions legales</h3>
+      <div class="legal-text">
+        <p>Cet outil est fourni <strong>a titre informatif uniquement</strong>. Les mesures obtenues peuvent etre imprecises et ne sauraient etre utilisees a des fins legales, administratives ou techniques sans verification par un professionnel qualifie.</p>
+        <p>L'auteur <strong>decline toute responsabilite</strong> en cas d'erreur de mesure ou d'utilisation des resultats produits par cet outil.</p>
+        <p>Aucune donnee, image ou fichier n'est collecte, transmis ou stocke. Tout traitement s'effectue localement dans votre navigateur.</p>
+        <p class="legal-credit">
+          Developpe par <strong>David Nazar</strong><br>
+          <a href="mailto:nazar.david@gmail.com">nazar.david@gmail.com</a>
+          &nbsp;&middot;&nbsp;
+          <a href="https://twitter.com/gandoulfe" target="_blank" rel="noopener">@gandoulfe</a>
+        </p>
+      </div>
+      <button class="btn btn-primary" id="legal-close">Fermer</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
