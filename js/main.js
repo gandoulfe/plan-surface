@@ -251,6 +251,6 @@ function onWheel(e) {
 }
 
 // ── Misc helpers ──────────────────────────────────────────────────────────────
-function show(id)              { document.getElementById(id).style.display = 'block'; }
+function show(id)              { document.getElementById(id).style.display = ''; }
 function setInstructions(t)    { document.getElementById('instructions').textContent = t; }
 function updateZoomIndicator() { document.getElementById('zoom-indicator').textContent = Math.round(S.zoom * 100) + '%'; }
