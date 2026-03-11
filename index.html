@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plan Surface</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <div class="app">
@@ -27,9 +27,9 @@
         </div>
 
         <div class="section" id="scale-section" style="display:none">
-          <div class="section-label">Echelle</div>
-          <div id="scale-status" class="scale-status uncalibrated">Non calibree</div>
-          <button class="btn" id="calibrate-btn">Recalibrer l'echelle</button>
+          <div class="section-label">Échelle</div>
+          <div id="scale-status" class="scale-status uncalibrated">Non calibrée</div>
+          <button class="btn" id="calibrate-btn">Recalibrer l'échelle</button>
         </div>
 
         <div class="section" id="draw-section" style="display:none">
@@ -62,12 +62,12 @@
         <div class="shortcuts">
           <div class="shortcut-title">Raccourcis</div>
           <div class="shortcut-row"><span>Zoom</span><span class="shortcut-key">Molette</span></div>
-          <div class="shortcut-row"><span>Deplacer la vue</span><span class="shortcut-key">Clic + glisser</span></div>
-          <div class="shortcut-row"><span>Annuler</span><span class="shortcut-key">Echap</span></div>
+          <div class="shortcut-row"><span>Déplacer la vue</span><span class="shortcut-key">Clic + glisser</span></div>
+          <div class="shortcut-row"><span>Annuler</span><span class="shortcut-key">Échap</span></div>
           <div class="shortcut-row"><span>Fermer polygone</span><span class="shortcut-key">Double-clic</span></div>
         </div>
         <div class="legal-footer">
-          <a href="#" id="legal-link">Mentions legales</a>
+          <a href="#" id="legal-link">Mentions légales</a>
           &nbsp;&middot;&nbsp;
           <a href="mailto:nazar.david@gmail.com">nazar.david@gmail.com</a>
         </div>
@@ -85,12 +85,12 @@
   <!-- Calibration intro modal -->
   <div id="calib-intro-modal" class="dialog-overlay" style="display:none">
     <div class="dialog">
-      <h3>Calibration de l'echelle</h3>
-      <p>Pour calculer les surfaces, l'application doit connaitre l'echelle du plan.</p>
+      <h3>Calibration de l'échelle</h3>
+      <p>Pour calculer les surfaces, l'application doit connaître l'échelle du plan.</p>
       <ol class="calib-steps">
-        <li>Cliquez sur <strong>2 points</strong> dont vous connaissez la distance reelle (ex : un mur, une cote indiquee)</li>
-        <li>Entrez la <strong>distance reelle</strong> entre ces 2 points</li>
-        <li>L'echelle est calculee et les surfaces s'affichent</li>
+        <li><span>Cliquez sur <strong>2 points</strong> dont vous connaissez la distance réelle (ex : un mur, une cote indiquée)</span></li>
+        <li><span>Entrez la <strong>distance réelle</strong> entre ces 2 points</span></li>
+        <li><span>L'échelle est calculée et les surfaces s'affichent automatiquement</span></li>
       </ol>
       <div class="dialog-buttons">
         <button class="btn btn-primary" id="calib-intro-start">Commencer</button>
@@ -102,8 +102,8 @@
   <!-- Scale dialog -->
   <div id="scale-dialog" class="dialog-overlay" style="display:none">
     <div class="dialog">
-      <h3>Distance reelle</h3>
-      <p>Entrez la longueur reelle de la ligne que vous venez de tracer :</p>
+      <h3>Distance réelle</h3>
+      <p>Entrez la longueur réelle de la ligne que vous venez de tracer :</p>
       <div class="input-group">
         <input type="number" id="real-length" min="0.001" step="any" placeholder="ex: 5">
         <select id="length-unit">
@@ -122,13 +122,13 @@
   <!-- Legal modal -->
   <div id="legal-modal" class="dialog-overlay" style="display:none">
     <div class="dialog dialog-legal">
-      <h3>Mentions legales</h3>
+      <h3>Mentions légales</h3>
       <div class="legal-text">
-        <p>Cet outil est fourni <strong>a titre informatif uniquement</strong>. Les mesures obtenues peuvent etre imprecises et ne sauraient etre utilisees a des fins legales, administratives ou techniques sans verification par un professionnel qualifie.</p>
-        <p>L'auteur <strong>decline toute responsabilite</strong> en cas d'erreur de mesure ou d'utilisation des resultats produits par cet outil.</p>
-        <p>Aucune donnee, image ou fichier n'est collecte, transmis ou stocke. Tout traitement s'effectue localement dans votre navigateur.</p>
+        <p>Cet outil est fourni <strong>à titre informatif uniquement</strong>. Les mesures obtenues peuvent être imprécises et ne sauraient être utilisées à des fins légales, administratives ou techniques sans vérification par un professionnel qualifié.</p>
+        <p>L'auteur <strong>décline toute responsabilité</strong> en cas d'erreur de mesure ou d'utilisation des résultats produits par cet outil.</p>
+        <p>Aucune donnée, image ou fichier n'est collecté, transmis ou stocké. Tout traitement s'effectue localement dans votre navigateur.</p>
         <p class="legal-credit">
-          Developpe par <strong>David Nazar</strong><br>
+          Développé par <strong>David Nazar</strong><br>
           <a href="mailto:nazar.david@gmail.com">nazar.david@gmail.com</a>
           &nbsp;&middot;&nbsp;
           <a href="https://twitter.com/gandoulfe" target="_blank" rel="noopener">@gandoulfe</a>

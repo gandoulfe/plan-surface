@@ -85,7 +85,7 @@ async function onFileChange(e) {
 function startCalibration() {
   S.calibPt1 = null; S.calibPt2 = null;
   setMode('calibrate_1');
-  setInstructions('Cliquez sur le 1er point de reference');
+  setInstructions('Cliquez sur le 1er point de référence');
   render();
 }
 
@@ -118,7 +118,7 @@ function applyScaleStatus() {
 function startDrawing() {
   if (!S.image) return;
   S.current = []; setMode('draw');
-  setInstructions('Cliquez pour ajouter des points \u2014 double-clic ou clic sur le 1er point pour terminer');
+  setInstructions('Cliquez pour ajouter des points — double-clic ou clic sur le 1er point pour terminer');
 }
 
 function finishPolygon() {
@@ -165,7 +165,7 @@ function onMouseDown(e) {
 
   if (S.mode === 'calibrate_1') {
     S.calibPt1 = wp; setMode('calibrate_2');
-    setInstructions('Cliquez sur le 2\u00e8me point de reference');
+    setInstructions('Cliquez sur le 2ème point de référence');
     render(); return;
   }
   if (S.mode === 'calibrate_2') {
@@ -184,7 +184,7 @@ function onMouseDown(e) {
   }
   if (S.mode === 'measure') {
     if (!S.measPt1) {
-      S.measPt1 = wp; setInstructions('Cliquez sur le 2\u00e8me point');
+      S.measPt1 = wp; setInstructions('Cliquez sur le 2ème point');
     } else {
       S.measurements.push({ id: S.nextMeasId++, pt1: S.measPt1, pt2: wp });
       S.measPt1 = null; setMode('idle'); setInstructions(''); updateSidebar();
