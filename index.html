@@ -10,6 +10,7 @@
 <body>
   <div class="app">
     <aside class="sidebar">
+
       <div class="sidebar-header">
         <h1>Plan Surface</h1>
       </div>
@@ -18,36 +19,30 @@
 
         <div class="section">
           <div class="section-label">Plan</div>
-          <div class="stack">
-            <label class="btn btn-primary" for="file-input">
-              Importer un plan
-              <input type="file" id="file-input" accept=".pdf,image/*" hidden>
-            </label>
-            <div id="file-name" class="file-name"></div>
-          </div>
+          <label class="btn btn-primary" for="file-input">
+            Importer un plan
+            <input type="file" id="file-input" accept=".pdf,image/*" hidden>
+          </label>
+          <div id="file-name" class="file-name"></div>
         </div>
 
         <div class="section" id="scale-section" style="display:none">
           <div class="section-label">Echelle</div>
-          <div class="stack">
-            <div id="scale-status" class="scale-status uncalibrated">Non calibree</div>
-            <button class="btn" id="calibrate-btn">Recalibrer l'echelle</button>
-          </div>
+          <div id="scale-status" class="scale-status uncalibrated">Non calibree</div>
+          <button class="btn" id="calibrate-btn">Recalibrer l'echelle</button>
         </div>
 
         <div class="section" id="draw-section" style="display:none">
           <div class="section-label">Outils</div>
-          <div class="stack">
-            <button class="btn btn-success" id="draw-btn">Nouveau polygone</button>
-            <button class="btn btn-measure" id="measure-btn">Mesurer une distance</button>
-            <div class="btn-row">
-              <button class="btn" id="export-btn">Exporter</button>
-              <button class="btn" id="import-btn">Importer</button>
-              <input type="file" id="import-input" accept=".json" hidden>
-            </div>
-            <button class="btn" id="print-btn">Imprimer / PDF</button>
-            <button class="btn btn-danger" id="clear-btn">Tout effacer</button>
+          <button class="btn btn-success" id="draw-btn">Nouveau polygone</button>
+          <button class="btn btn-measure" id="measure-btn">Mesurer une distance</button>
+          <div class="btn-row">
+            <button class="btn" id="export-btn">Exporter</button>
+            <button class="btn" id="import-btn">Importer</button>
+            <input type="file" id="import-input" accept=".json" hidden>
           </div>
+          <button class="btn" id="print-btn">Imprimer / PDF</button>
+          <button class="btn btn-danger" id="clear-btn">Tout effacer</button>
         </div>
 
         <div class="section" id="polygons-section" style="display:none">
@@ -67,7 +62,7 @@
         <div class="shortcuts">
           <div class="shortcut-title">Raccourcis</div>
           <div class="shortcut-row"><span>Zoom</span><span class="shortcut-key">Molette</span></div>
-          <div class="shortcut-row"><span>Deplacer</span><span class="shortcut-key">Clic + glisser</span></div>
+          <div class="shortcut-row"><span>Deplacer la vue</span><span class="shortcut-key">Clic + glisser</span></div>
           <div class="shortcut-row"><span>Annuler</span><span class="shortcut-key">Echap</span></div>
           <div class="shortcut-row"><span>Fermer polygone</span><span class="shortcut-key">Double-clic</span></div>
         </div>
@@ -77,6 +72,7 @@
           <a href="mailto:nazar.david@gmail.com">nazar.david@gmail.com</a>
         </div>
       </div>
+
     </aside>
 
     <main class="canvas-container" id="canvas-container">
@@ -90,11 +86,11 @@
   <div id="calib-intro-modal" class="dialog-overlay" style="display:none">
     <div class="dialog">
       <h3>Calibration de l'echelle</h3>
-      <p>Pour calculer les surfaces, l'application a besoin de connaitre l'echelle du plan.</p>
+      <p>Pour calculer les surfaces, l'application doit connaitre l'echelle du plan.</p>
       <ol class="calib-steps">
-        <li>Cliquez sur <strong>2 points</strong> dont vous connaissez la distance reelle (ex : un mur, une cote)</li>
+        <li>Cliquez sur <strong>2 points</strong> dont vous connaissez la distance reelle (ex : un mur, une cote indiquee)</li>
         <li>Entrez la <strong>distance reelle</strong> entre ces 2 points</li>
-        <li>L'echelle est calculee automatiquement</li>
+        <li>L'echelle est calculee et les surfaces s'affichent</li>
       </ol>
       <div class="dialog-buttons">
         <button class="btn btn-primary" id="calib-intro-start">Commencer</button>
@@ -107,7 +103,7 @@
   <div id="scale-dialog" class="dialog-overlay" style="display:none">
     <div class="dialog">
       <h3>Distance reelle</h3>
-      <p>Entrez la longueur reelle de la ligne tracee :</p>
+      <p>Entrez la longueur reelle de la ligne que vous venez de tracer :</p>
       <div class="input-group">
         <input type="number" id="real-length" min="0.001" step="any" placeholder="ex: 5">
         <select id="length-unit">
