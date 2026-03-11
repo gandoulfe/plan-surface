@@ -112,11 +112,13 @@ function applyScaleStatus() {
   if (!S.scale) return;
   document.getElementById('scale-status').textContent = `1 m = ${(1 / S.scale).toFixed(1)} px  |  1 px = ${(S.scale * 100).toFixed(4)} cm`;
   document.getElementById('scale-status').className   = 'scale-status calibrated';
+  document.getElementById('draw-btn').classList.add('btn-highlight');
 }
 
 // ── Drawing actions ───────────────────────────────────────────────────────────
 function startDrawing() {
   if (!S.image) return;
+  document.getElementById('draw-btn').classList.remove('btn-highlight');
   S.current = []; setMode('draw');
   setInstructions('Cliquez pour ajouter des points — double-clic ou clic sur le 1er point pour terminer');
 }
