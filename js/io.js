@@ -52,8 +52,72 @@ export async function importData(file) {
 }
 
 // ── Print ─────────────────────────────────────────────────────────────────────
-export function printView(canvas) {
-  const dataUrl = canvas.toDataURL('image/png');
+
+function renderPrintCanvas() {
+  const MAX = 1800;
+  const sc  = Math.min(MAX / S.imageW, MAX / S.imageH, 1);
+  const w   = Math.round(S.imageW * sc);
+  const h   = Math.round(S.imageH * sc);
+
+  const off = document.createElement('canvas');
+  off.width = w; off.height = h;
+  const c = off.getContext('2d');
+
+  c.drawImage(S.image, 0, 0, w, h);
+
+  const px = p => [p.x * sc, p.y * sc];
+
+  const pill = (c, x, y, tw, fsz) => {
+    const pad = 6, rh = fsz * 1.5;
+    c.beginPath();
+    const rx = x - tw/2 - pad, ry = y - rh/2, rw = tw + pad*2, r = 4;
+    c.moveTo(rx+r, ry); c.lineTo(rx+rw-r, ry);
+    c.quadraticCurveTo(rx+rw, ry, rx+rw, ry+r);
+    c.lineTo(rx+rw, ry+rh-r); c.quadraticCurveTo(rx+rw, ry+rh, rx+rw-r, ry+rh);
+    c.lineTo(rx+r, ry+rh); c.quadraticCurveTo(rx, ry+rh, rx, ry+rh-r);
+    c.lineTo(rx, ry+r); c.quadraticCurveTo(rx, ry, rx+r, ry);
+    c.closePath();
+  };
+
+  S.polygons.forEach(({ points, color, area }) => {
+    if (points.length < 2) return;
+    const spts = points.map(p => px(p));
+    c.beginPath();
+    c.moveTo(...spts[0]); spts.slice(1).forEach(p => c.lineTo(...p)); c.closePath();
+    c.fillStyle = color + '50'; c.fill();
+    c.strokeStyle = 'rgba(255,255,255,0.7)'; c.lineWidth = 3; c.stroke();
+    c.strokeStyle = color; c.lineWidth = 2; c.stroke();
+    spts.forEach(([x, y]) => { c.beginPath(); c.arc(x, y, 4, 0, Math.PI*2); c.fillStyle = color; c.fill(); });
+
+    let cx = 0, cy = 0;
+    points.forEach(p => { cx += p.x; cy += p.y; });
+    cx = cx / points.length * sc; cy = cy / points.length * sc;
+    const lbl = fmtArea(area), fsz = 14;
+    c.font = `bold ${fsz}px system-ui`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const tw = c.measureText(lbl).width;
+    c.fillStyle = 'rgba(0,0,0,0.65)'; pill(c, cx, cy, tw, fsz); c.fill();
+    c.fillStyle = '#fff'; c.fillText(lbl, cx, cy);
+  });
+
+  S.measurements.forEach(({ pt1, pt2, id }) => {
+    const [ax, ay] = px(pt1), [bx, by] = px(pt2);
+    c.strokeStyle = '#fbbf24'; c.lineWidth = 1.5; c.setLineDash([6, 4]);
+    c.beginPath(); c.moveTo(ax, ay); c.lineTo(bx, by); c.stroke(); c.setLineDash([]);
+    [[ax,ay],[bx,by]].forEach(([x,y]) => { c.beginPath(); c.arc(x,y,3,0,Math.PI*2); c.fillStyle='#fbbf24'; c.fill(); });
+    const mx = (ax+bx)/2, my = (ay+by)/2;
+    const len = dist(pt1, pt2);
+    const lbl = S.scale ? fmtLength(len * S.scale) : len.toFixed(1) + ' px', fsz = 12;
+    c.font = `bold ${fsz}px system-ui`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    const tw = c.measureText(lbl).width;
+    c.fillStyle = 'rgba(0,0,0,0.7)'; pill(c, mx, my, tw, fsz); c.fill();
+    c.fillStyle = '#fbbf24'; c.fillText(lbl, mx, my);
+  });
+
+  return off.toDataURL('image/png');
+}
+
+export function printView() {
+  const dataUrl = renderPrintCanvas();
 
   const polyRows = S.polygons.map(p =>
     `<tr>

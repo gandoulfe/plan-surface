@@ -50,7 +50,7 @@ function bindUI() {
   document.getElementById('clear-btn').addEventListener('click', clearAll);
   document.getElementById('export-btn').addEventListener('click', exportData);
   document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-input').click());
-  document.getElementById('print-btn').addEventListener('click', () => printView(canvas));
+  document.getElementById('print-btn').addEventListener('click', () => printView());
   document.getElementById('legal-link').addEventListener('click', e => { e.preventDefault(); document.getElementById('legal-modal').style.display = 'flex'; });
   document.getElementById('legal-close').addEventListener('click', () => { document.getElementById('legal-modal').style.display = 'none'; });
   document.getElementById('calib-intro-start').addEventListener('click', () => { document.getElementById('calib-intro-modal').style.display = 'none'; startCalibration(); });
